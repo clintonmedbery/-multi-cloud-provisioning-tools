@@ -1,5 +1,5 @@
 {
-  "name": "@xg4/hello",
+  "name": "multi-cloud-provisioning-tools",
   "version": "0.2.1",
   "description": "rollup boilerplate for typescript",
   "keywords": [
@@ -8,16 +8,8 @@
     "rollup",
     "typescript"
   ],
-  "homepage": "https://github.com/xg4/rollup-typescript-boilerplate#readme",
-  "bugs": {
-    "url": "https://github.com/xg4/rollup-typescript-boilerplate/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xg4/rollup-typescript-boilerplate.git"
-  },
   "license": "MIT",
-  "author": "xg4 <xingor4@gmail.com>",
+  "author": "Clinton Medbery <clintomed@gmail.com>",
   "exports": {
     ".": {
       "types": "./dist/types",
@@ -34,6 +26,7 @@
   ],
   "scripts": {
     "build": "rimraf dist && npm run build:types && npm run build:js",
+    "dev": "rollup -c -w",
     "build:js": "rollup -c",
     "build:types": "tsc --emitDeclarationOnly",
     "prepare": "husky install"
@@ -61,6 +54,7 @@
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^11.1.0",
     "@semantic-release/changelog": "6.0.1",
     "@semantic-release/commit-analyzer": "9.0.2",
     "@semantic-release/git": "10.0.1",
@@ -68,6 +62,7 @@
     "@semantic-release/npm": "9.0.1",
     "@semantic-release/release-notes-generator": "10.0.3",
     "@types/lodash": "4.14.182",
+    "@types/node-fetch": "^2.6.3",
     "husky": "^8.0.0",
     "lint-staged": "^12.4.2",
     "prettier": "^2.6.2",

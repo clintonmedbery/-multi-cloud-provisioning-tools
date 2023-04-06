@@ -1,17 +1,20 @@
-import { upperCase } from 'lodash'
-
-export default function hello() {
-  return upperCase('hello world')
-}
-
-export class Hello {
-  name: string
-
-  constructor() {
-    this.name = 'hello'
-  }
-
-  say() {
-    return upperCase('hello world')
-  }
-}
+export { default as vSphereClient } from './clients/vSphereClient'
+export type {
+  GetVMsParams,
+  VM,
+  GetClustersParams,
+  Cluster,
+  GetDataCentersParams,
+  DataCenter,
+  GetDatastoresParams,
+  Datastore,
+  GetFoldersParams,
+  Folder,
+  DeploymentInfo,
+  GetHostsParams,
+  Host,
+  GetNetworksParams,
+  Network,
+  GetResourcePoolsParams,
+  ResourcePool,
+} from './models/vSphereModels'

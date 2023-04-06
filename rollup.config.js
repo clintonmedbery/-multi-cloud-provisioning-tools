@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { terser } from 'rollup-plugin-terser'
+import typescript from '@rollup/plugin-typescript'
 import pkg from './package.json'
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx']
@@ -15,6 +16,7 @@ const plugins = [
     extensions,
   }),
   terser(),
+  typescript(),
 ]
 
 export default [
@@ -22,7 +24,7 @@ export default [
     input: 'src/index.ts',
     external: [
       Object.keys(pkg.dependencies || {}),
-      Object.keys(pkg.peerDependencies || {}),
+      // Object.keys(pkg.peerDependencies || {}),
     ].flat(),
     output: [
       {
