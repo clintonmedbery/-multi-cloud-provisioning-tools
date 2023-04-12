@@ -1,4 +1,4 @@
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
 import {
   GetVMsParams,
   VM,
@@ -17,57 +17,64 @@ import {
   Network,
   GetResourcePoolsParams,
   ResourcePool,
-} from '../models/vSphereModels'
-import { buildQueryString } from '../utils'
+} from '../models/vSphereModels';
+import { buildQueryString } from '../utils';
+import https from 'https';
 
 class vSphereClient {
-  private baseUrl: string
-  private headers: Record<string, string>
-  private sessionId?: string
+  private baseUrl: string;
+  private headers: Record<string, string>;
+  private sessionId?: string;
+  private httpsAgent?: https.Agent;
 
   constructor(
     host: string,
     private username: string,
-    private password: string
+    private password: string,
+    rejectUnauthorized: boolean
   ) {
-    this.baseUrl = `https://${host}`
-    const headers = new Headers()
-    headers.append('Content-Type', 'application/json')
-    this.headers = { 'Content-Type': 'application/json' }
+    this.baseUrl = `https://${host}`;
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.headers = { 'Content-Type': 'application/json' };
+    this.httpsAgent = new https.Agent({
+      rejectUnauthorized: rejectUnauthorized,
+    });
   }
 
   async authenticate(): Promise<void> {
     try {
       const basicAuth = Buffer.from(
         `${this.username}:${this.password}`
-      ).toString('base64')
-      this.headers['Authorization'] = `Basic ${basicAuth}`
+      ).toString('base64');
+      this.headers['Authorization'] = `Basic ${basicAuth}`;
       const response = await fetch(`${this.baseUrl}/api/session`, {
         method: 'POST',
         headers: this.headers,
-      })
+        agent: this.httpsAgent,
+      });
 
       if (!response.ok) {
         throw new Error(
           `Failed to authenticate with vSphere API: ${response.statusText}`
-        )
+        );
       }
 
-      const data = await response.json()
+      const data = await response.json();
       // @ts-ignore
-      this.sessionId = data
+      this.sessionId = data;
     } catch (error) {
-      console.error('Failed to authenticate with vSphere API:', error)
-      throw error
+      console.error('Failed to authenticate with vSphere API:', error);
+      throw error;
     }
   }
 
   async authenticateOrThrow(): Promise<void> {
     if (!this.sessionId) {
-      await this.authenticate()
+      await this.authenticate();
     }
     if (!this.sessionId) {
-      throw new Error('Failed to authenticate with vSphere API: No session ID')
+      throw new Error('Failed to authenticate with vSphere API: No session ID');
     }
   }
 
@@ -78,29 +85,32 @@ class vSphereClient {
    * @throws An error if the request fails
    */
   async getVMs(params?: GetVMsParams): Promise<VM[]> {
-    await this.authenticateOrThrow()
+    await this.authenticateOrThrow();
 
-    let url = `${this.baseUrl}/api/vcenter/vm`
+    let url = `${this.baseUrl}/api/vcenter/vm`;
     if (params) {
-      url += `?${buildQueryString(params as Record<string, string | string[]>)}`
+      url += `?${buildQueryString(
+        params as Record<string, string | string[]>
+      )}`;
     }
     try {
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'vmware-api-session-id': this.sessionId ?? '' },
-      })
+        agent: this.httpsAgent,
+      });
 
       if (!response.ok) {
         throw new Error(
           `Failed to get VMs: ${JSON.stringify(response, null, 2)}`
-        )
+        );
       }
 
-      const data = await response.json()
-      return data
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error('Failed to get VMs:', error)
-      throw error
+      console.error('Failed to get VMs:', error);
+      throw error;
     }
   }
 
@@ -111,29 +121,32 @@ class vSphereClient {
    * @throws An error if the request fails
    */
   async getClusters(params?: GetClustersParams): Promise<Cluster[]> {
-    await this.authenticateOrThrow()
+    await this.authenticateOrThrow();
 
-    let url = `${this.baseUrl}/api/vcenter/cluster`
+    let url = `${this.baseUrl}/api/vcenter/cluster`;
     if (params) {
-      url += `?${buildQueryString(params as Record<string, string | string[]>)}`
+      url += `?${buildQueryString(
+        params as Record<string, string | string[]>
+      )}`;
     }
     try {
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'vmware-api-session-id': this.sessionId ?? '' },
-      })
+        agent: this.httpsAgent,
+      });
 
       if (!response.ok) {
         throw new Error(
           `Failed to get Clusters: ${JSON.stringify(response, null, 2)}`
-        )
+        );
       }
 
-      const data = await response.json()
-      return data
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error('Failed to get Clusters:', error)
-      throw error
+      console.error('Failed to get Clusters:', error);
+      throw error;
     }
   }
 
@@ -144,29 +157,32 @@ class vSphereClient {
    * @throws An error if the request fails
    */
   async getDataCenters(params?: GetDataCentersParams): Promise<DataCenter[]> {
-    await this.authenticateOrThrow()
+    await this.authenticateOrThrow();
 
-    let url = `${this.baseUrl}/api/vcenter/datacenter`
+    let url = `${this.baseUrl}/api/vcenter/datacenter`;
     if (params) {
-      url += `?${buildQueryString(params as Record<string, string | string[]>)}`
+      url += `?${buildQueryString(
+        params as Record<string, string | string[]>
+      )}`;
     }
     try {
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'vmware-api-session-id': this.sessionId ?? '' },
-      })
+        agent: this.httpsAgent,
+      });
 
       if (!response.ok) {
         throw new Error(
           `Failed to get DataCenters: ${JSON.stringify(response, null, 2)}`
-        )
+        );
       }
 
-      const data = await response.json()
-      return data
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error('Failed to get DataCenters:', error)
-      throw error
+      console.error('Failed to get DataCenters:', error);
+      throw error;
     }
   }
 
@@ -177,29 +193,32 @@ class vSphereClient {
    * @throws An error if the request fails
    */
   async getDatastores(params?: GetDatastoresParams): Promise<Datastore[]> {
-    await this.authenticateOrThrow()
+    await this.authenticateOrThrow();
 
-    let url = `${this.baseUrl}/api/vcenter/datastore`
+    let url = `${this.baseUrl}/api/vcenter/datastore`;
     if (params) {
-      url += `?${buildQueryString(params as Record<string, string | string[]>)}`
+      url += `?${buildQueryString(
+        params as Record<string, string | string[]>
+      )}`;
     }
     try {
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'vmware-api-session-id': this.sessionId ?? '' },
-      })
+        agent: this.httpsAgent,
+      });
 
       if (!response.ok) {
         throw new Error(
           `Failed to get Datastores: ${JSON.stringify(response, null, 2)}`
-        )
+        );
       }
 
-      const data = await response.json()
-      return data
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error('Failed to get Datastores:', error)
-      throw error
+      console.error('Failed to get Datastores:', error);
+      throw error;
     }
   }
 
@@ -210,29 +229,32 @@ class vSphereClient {
    * @throws An error if the request fails
    */
   async getFolders(params?: GetFoldersParams): Promise<Folder[]> {
-    await this.authenticateOrThrow()
+    await this.authenticateOrThrow();
 
-    let url = `${this.baseUrl}/api/vcenter/folder`
+    let url = `${this.baseUrl}/api/vcenter/folder`;
     if (params) {
-      url += `?${buildQueryString(params as Record<string, string | string[]>)}`
+      url += `?${buildQueryString(
+        params as Record<string, string | string[]>
+      )}`;
     }
     try {
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'vmware-api-session-id': this.sessionId ?? '' },
-      })
+        agent: this.httpsAgent,
+      });
 
       if (!response.ok) {
         throw new Error(
           `Failed to get Folders: ${JSON.stringify(response, null, 2)}`
-        )
+        );
       }
 
-      const data = await response.json()
-      return data
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error('Failed to get Folders:', error)
-      throw error
+      console.error('Failed to get Folders:', error);
+      throw error;
     }
   }
 
@@ -241,14 +263,15 @@ class vSphereClient {
    * @returns {Promise<DeploymentInfo[]>} Deployment information.
    */
   async getDeployments(): Promise<DeploymentInfo[]> {
-    await this.authenticateOrThrow()
-    const url = `${this.baseUrl}/api/vcenter/deployment`
+    await this.authenticateOrThrow();
+    const url = `${this.baseUrl}/api/vcenter/deployment`;
 
     try {
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'vmware-api-session-id': this.sessionId ?? '' },
-      })
+        agent: this.httpsAgent,
+      });
 
       if (!response.ok) {
         throw new Error(
@@ -257,14 +280,14 @@ class vSphereClient {
             null,
             2
           )}`
-        )
+        );
       }
 
-      const data = await response.json()
-      return data as DeploymentInfo[]
+      const data = await response.json();
+      return data as DeploymentInfo[];
     } catch (error) {
-      console.error('Failed to get Deployment Information:', error)
-      throw error
+      console.error('Failed to get Deployment Information:', error);
+      throw error;
     }
   }
 
@@ -275,29 +298,32 @@ class vSphereClient {
    * @throws An error if the request fails
    */
   async getHosts(params?: GetHostsParams): Promise<Host[]> {
-    await this.authenticateOrThrow()
+    await this.authenticateOrThrow();
 
-    let url = `${this.baseUrl}/api/vcenter/host`
+    let url = `${this.baseUrl}/api/vcenter/host`;
     if (params) {
-      url += `?${buildQueryString(params as Record<string, string | string[]>)}`
+      url += `?${buildQueryString(
+        params as Record<string, string | string[]>
+      )}`;
     }
     try {
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'vmware-api-session-id': this.sessionId ?? '' },
-      })
+        agent: this.httpsAgent,
+      });
 
       if (!response.ok) {
         throw new Error(
           `Failed to get Hosts: ${JSON.stringify(response, null, 2)}`
-        )
+        );
       }
 
-      const data = await response.json()
-      return data
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error('Failed to get Hosts:', error)
-      throw error
+      console.error('Failed to get Hosts:', error);
+      throw error;
     }
   }
 
@@ -308,29 +334,32 @@ class vSphereClient {
    * @throws An error if the request fails
    */
   async getNetworks(params?: GetNetworksParams): Promise<Network[]> {
-    await this.authenticateOrThrow()
+    await this.authenticateOrThrow();
 
-    let url = `${this.baseUrl}/api/vcenter/network`
+    let url = `${this.baseUrl}/api/vcenter/network`;
     if (params) {
-      url += `?${buildQueryString(params as Record<string, string | string[]>)}`
+      url += `?${buildQueryString(
+        params as Record<string, string | string[]>
+      )}`;
     }
     try {
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'vmware-api-session-id': this.sessionId ?? '' },
-      })
+        agent: this.httpsAgent,
+      });
 
       if (!response.ok) {
         throw new Error(
           `Failed to get Networks: ${JSON.stringify(response, null, 2)}`
-        )
+        );
       }
 
-      const data = await response.json()
-      return data
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error('Failed to get Networks:', error)
-      throw error
+      console.error('Failed to get Networks:', error);
+      throw error;
     }
   }
 
@@ -343,31 +372,34 @@ class vSphereClient {
   async getResourcePools(
     params?: GetResourcePoolsParams
   ): Promise<ResourcePool[]> {
-    await this.authenticateOrThrow()
+    await this.authenticateOrThrow();
 
-    let url = `${this.baseUrl}/api/vcenter/resource-pool`
+    let url = `${this.baseUrl}/api/vcenter/resource-pool`;
     if (params) {
-      url += `?${buildQueryString(params as Record<string, string | string[]>)}`
+      url += `?${buildQueryString(
+        params as Record<string, string | string[]>
+      )}`;
     }
     try {
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'vmware-api-session-id': this.sessionId ?? '' },
-      })
+        agent: this.httpsAgent,
+      });
 
       if (!response.ok) {
         throw new Error(
           `Failed to get Resource Pools: ${JSON.stringify(response, null, 2)}`
-        )
+        );
       }
 
-      const data = await response.json()
-      return data
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error('Failed to get Resource Pools:', error)
-      throw error
+      console.error('Failed to get Resource Pools:', error);
+      throw error;
     }
   }
 }
 
-export default vSphereClient
+export default vSphereClient;

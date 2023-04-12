@@ -1,15 +1,15 @@
 export interface GetClustersParams {
   /** An optional array of cluster IDs */
-  clusters?: string[]
+  clusters?: string[];
 
   /** An optional array of datacenter IDs */
-  datacenters?: string[]
+  datacenters?: string[];
 
   /** An optional array of folder IDs */
-  folders?: string[]
+  folders?: string[];
 
   /** An optional array of cluster names */
-  names?: string[]
+  names?: string[];
 }
 
 /**
@@ -17,13 +17,13 @@ export interface GetClustersParams {
  */
 export interface Cluster {
   /** Whether Distributed Resource Scheduler (DRS) is enabled. */
-  drs_enabled: boolean
+  drs_enabled: boolean;
   /** Identifier of the cluster. */
-  cluster: string
+  cluster: string;
   /** Name of the cluster. */
-  name: string
+  name: string;
   /** Whether High Availability (HA) is enabled. */
-  ha_enabled: boolean
+  ha_enabled: boolean;
 }
 
 /**
@@ -40,15 +40,15 @@ export enum PowerState {
  */
 export interface VM {
   /** Memory size of the virtual machine in mebibytes (MiB). */
-  memory_size_MiB: number
+  memory_size_MiB: number;
   /** Identifier of the virtual machine. */
-  vm: string
+  vm: string;
   /** Name of the virtual machine. */
-  name: string
+  name: string;
   /** Power state of the virtual machine. */
-  power_state: string
+  power_state: string;
   /** Number of CPUs in the virtual machine. */
-  cpu_count: number
+  cpu_count: number;
 }
 
 /**
@@ -56,21 +56,21 @@ export interface VM {
  */
 export interface GetVMsParams {
   /** Array of cluster IDs to filter by. */
-  clusters?: string[]
+  clusters?: string[];
   /** Array of datacenter IDs to filter by. */
-  datacenters?: string[]
+  datacenters?: string[];
   /** Array of folder IDs to filter by. */
-  folders?: string[]
+  folders?: string[];
   /** Array of host IDs to filter by. */
-  hosts?: string[]
+  hosts?: string[];
   /** Array of virtual machine names to filter by. */
-  names?: string[]
+  names?: string[];
   /** Array of virtual machine power states to filter by. */
-  power_states?: PowerState[]
+  power_states?: PowerState[];
   /** Array of resource pool IDs to filter by. */
-  resource_pools?: string[]
+  resource_pools?: string[];
   /** Array of virtual machine IDs to filter by. */
-  vms?: string[]
+  vms?: string[];
 }
 
 /**
@@ -80,12 +80,12 @@ export interface DataCenter {
   /**
    * The identifier of the data center.
    */
-  datacenter: string
+  datacenter: string;
 
   /**
    * The name of the data center.
    */
-  name: string
+  name: string;
 }
 
 /**
@@ -95,17 +95,17 @@ export interface GetDataCentersParams {
   /**
    * An optional array of datacenter IDs to filter by. If unset or empty, datacenters with any identifier match the filter.
    */
-  datacenters?: string[]
+  datacenters?: string[];
 
   /**
    * An optional array of folder IDs that must contain the datacenters for the datacenter to match the filter. If unset or empty, datacenters in any folder match the filter.
    */
-  folders?: string[]
+  folders?: string[];
 
   /**
    * An optional array of names that datacenters must have to match the filter. If unset or empty, datacenters with any name match the filter.
    */
-  names?: string[]
+  names?: string[];
 }
 
 /**
@@ -118,22 +118,22 @@ export type DatastoreType =
   | 'CIFS'
   | 'VSAN'
   | 'VFFS'
-  | 'VVOL'
+  | 'VVOL';
 
 /**
  * Represents a datastore object.
  */
 export interface Datastore {
   /** Identifier of the datastore. */
-  datastore: string
+  datastore: string;
   /** Name of the datastore. */
-  name: string
+  name: string;
   /** Type of the datastore. */
-  type: DatastoreType
+  type: DatastoreType;
   /** Capacity of the datastore, in bytes. */
-  capacity?: number
+  capacity?: number;
   /** Available space of the datastore, in bytes. */
-  free_space?: number
+  free_space?: number;
 }
 
 /**
@@ -141,15 +141,15 @@ export interface Datastore {
  */
 export interface GetDatastoresParams {
   /** Array of datacenter IDs to filter by. */
-  datacenters?: string[]
+  datacenters?: string[];
   /** Array of datastore IDs to filter by. */
-  datastores?: string[]
+  datastores?: string[];
   /** Array of folder IDs to filter by. */
-  folders?: string[]
+  folders?: string[];
   /** Array of datastore names to filter by. */
-  names?: string[]
+  names?: string[];
   /** Array of datastore types to filter by. */
-  types?: DatastoreType[]
+  types?: DatastoreType[];
 }
 
 /**
@@ -157,11 +157,11 @@ export interface GetDatastoresParams {
  */
 export interface Folder {
   /** Identifier of the folder. */
-  folder: string
+  folder: string;
   /** Name of the folder. */
-  name: string
+  name: string;
   /** Type of the folder. */
-  type: FolderType
+  type: FolderType;
 }
 
 /**
@@ -180,15 +180,15 @@ export enum FolderType {
  */
 export interface GetFoldersParams {
   /** Array of datacenter IDs to filter by. */
-  datacenters?: string[]
+  datacenters?: string[];
   /** Array of folder IDs to filter by. */
-  folders?: string[]
+  folders?: string[];
   /** Array of folder names to filter by. */
-  names?: string[]
+  names?: string[];
   /** Array of parent folder IDs to filter by. */
-  parent_folders?: string[]
+  parent_folders?: string[];
   /** Type of folder to filter by. */
-  type?: FolderType
+  type?: FolderType;
 }
 
 /**
@@ -196,15 +196,15 @@ export interface GetFoldersParams {
  */
 export interface StdLocalizableMessage {
   // Positional arguments to be substituted into the message template
-  args: string[]
+  args: string[];
   // The value of this localizable string or message template in the en_US (English) locale
-  default_message: string
+  default_message: string;
   // Unique identifier of the localizable string or message template
-  id: string
+  id: string;
   // Localized string value as per request requirements
-  localized?: string
+  localized?: string;
   // Named arguments to be substituted into the message template
-  params?: Record<string, any>
+  params?: Record<string, any>;
 }
 
 /**
@@ -212,11 +212,11 @@ export interface StdLocalizableMessage {
  */
 export interface TaskProgress {
   // The amount of work completed for the operation
-  completed: number
+  completed: number;
   // Message about the work progress
-  message: StdLocalizableMessage
+  message: StdLocalizableMessage;
   // Total amount of the work for the operation
-  total: number
+  total: number;
 }
 
 /**
@@ -224,13 +224,13 @@ export interface TaskProgress {
  */
 export interface DeploymentNotification {
   // The notification id
-  id: string
+  id: string;
   // The notification message
-  message: StdLocalizableMessage
+  message: StdLocalizableMessage;
   // The resolution message, if any. Only set for warnings and errors
-  resolution?: StdLocalizableMessage
+  resolution?: StdLocalizableMessage;
   // The time the notification was raised/found. Only set if the time information is available
-  time?: string
+  time?: string;
 }
 
 /**
@@ -238,11 +238,11 @@ export interface DeploymentNotification {
  */
 export interface DeploymentNotifications {
   // Error notification messages reported. Only set if an error was reported by the task
-  errors?: DeploymentNotification[]
+  errors?: DeploymentNotification[];
   // Info notification messages reported. Only set if an info was reported by the task
-  info?: DeploymentNotification[]
+  info?: DeploymentNotification[];
   // Warning notification messages reported. Only set if a warning was reported by the task
-  warnings?: DeploymentNotification[]
+  warnings?: DeploymentNotification[];
 }
 
 /**
@@ -250,9 +250,9 @@ export interface DeploymentNotifications {
  */
 export interface StdDynamicID {
   // The identifier for a resource whose type is specified by DynamicID.type
-  id: string
+  id: string;
   // The type of resource being identified
-  type: string
+  type: string;
 }
 
 /**
@@ -260,31 +260,31 @@ export interface StdDynamicID {
  */
 export interface DeploymentSubtask {
   // Flag to indicate whether or not the operation can be cancelled
-  cancelable: boolean
+  cancelable: boolean;
   // Description of the operation associated with the task
-  description: StdLocalizableMessage
+  description: StdLocalizableMessage;
   // Time when the operation is completed
-  end_time?: string
+  end_time?: string;
   // Description of the error if the operation status is “FAILED”
-  error?: any
+  error?: any;
   // Identifier of the operation associated with the task
-  operation: string
+  operation: string;
   // Parent of the current task
-  parent?: string
+  parent?: string;
   // The progress info of this deployment task
-  progress?: TaskProgress
+  progress?: TaskProgress;
   // Result of the task
-  result?: DeploymentNotifications
+  result?: DeploymentNotifications;
   // Identifier of the service containing the operation
-  service: string
+  service: string;
   // Time when the operation is started
-  start_time?: string
+  start_time?: string;
   // Status of the operation associated with the task
-  status: TaskStatus
+  status: TaskStatus;
   // Identifier of the target created by the operation or an existing one the operation performed on
-  target?: StdDynamicID
+  target?: StdDynamicID;
   // Name of the user who performed the operation
-  user?: string
+  user?: string;
 }
 
 /**
@@ -315,35 +315,35 @@ export enum DeploymentApplianceState {
  */
 export interface DeploymentInfo {
   // Identifier of the service containing the operation
-  service: string
+  service: string;
   // Description of the operation associated with the task
-  description: StdLocalizableMessage
+  description: StdLocalizableMessage;
   // Status of the operation associated with the task
-  status: TaskStatus
+  status: TaskStatus;
   // The ApplianceState of the vCenter Appliance
-  state: DeploymentApplianceState
+  state: DeploymentApplianceState;
   // Identifier of the operation associated with the task
-  operation: string
+  operation: string;
   // Flag to indicate whether or not the operation can be cancelled
-  cancelable: boolean
+  cancelable: boolean;
   // The progress info of the current appliance status
-  progress?: TaskProgress
+  progress?: TaskProgress;
   // Parent of the current task
-  parent?: string
+  parent?: string;
   // Time when the operation is started
-  start_time?: string
+  start_time?: string;
   // Description of the error if the operation status is “FAILED”
-  error?: any
+  error?: any;
   // Time when the operation is completed
-  end_time?: string
+  end_time?: string;
   // The ordered list of subtasks for this deployment operation
-  subtask_order?: string[]
+  subtask_order?: string[];
   // The map of the deployment subtasks and their status information
-  subtasks?: Record<string, DeploymentSubtask>
+  subtasks?: Record<string, DeploymentSubtask>;
   // Identifier of the target created by the operation or an existing one the operation performed on
-  target?: StdDynamicID
+  target?: StdDynamicID;
   // Name of the user who performed the operation
-  user?: string
+  user?: string;
 }
 
 /**
@@ -360,13 +360,13 @@ export enum HostConnectionState {
  */
 export interface Host {
   /** The connection status of the host. */
-  connection_state: HostConnectionState
+  connection_state: HostConnectionState;
   /** Identifier of the host. */
-  host: string
+  host: string;
   /** Name of the host. */
-  name: string
+  name: string;
   /** The power state of the host. */
-  power_state?: PowerState
+  power_state?: PowerState;
 }
 
 /**
@@ -374,19 +374,19 @@ export interface Host {
  */
 export interface GetHostsParams {
   /** Clusters that must contain the hosts. */
-  clusters?: string[]
+  clusters?: string[];
   /** Connection states that a host must be in. */
-  connection_states?: HostConnectionState[]
+  connection_states?: HostConnectionState[];
   /** Datacenters that must contain the hosts. */
-  datacenters?: string[]
+  datacenters?: string[];
   /** Folders that must contain the hosts. */
-  folders?: string[]
+  folders?: string[];
   /** Identifiers of hosts that can match the filter. */
-  hosts?: string[]
+  hosts?: string[];
   /** Names that hosts must have to match the filter. */
-  names?: string[]
+  names?: string[];
   /** If true, only standalone hosts can match the filter. */
-  standalone?: boolean
+  standalone?: boolean;
 }
 
 /**
@@ -403,11 +403,11 @@ export enum NetworkType {
  */
 export interface Network {
   /** Name of the network. */
-  name: string
+  name: string;
   /** Identifier of the network. */
-  network: string
+  network: string;
   /** The type of the network. */
-  type: NetworkType
+  type: NetworkType;
 }
 
 /**
@@ -415,15 +415,15 @@ export interface Network {
  */
 export interface GetNetworksParams {
   /** Datacenters that must contain the network. */
-  datacenters?: string[]
+  datacenters?: string[];
   /** Folders that must contain the network. */
-  folders?: string[]
+  folders?: string[];
   /** Names that networks must have to match the filter. */
-  names?: string[]
+  names?: string[];
   /** Identifiers of networks that can match the filter. */
-  networks?: string[]
+  networks?: string[];
   /** Types that networks must have to match the filter. */
-  types?: NetworkType[]
+  types?: NetworkType[];
 }
 
 /**
@@ -431,9 +431,9 @@ export interface GetNetworksParams {
  */
 export interface ResourcePool {
   /** Name of the resource pool. */
-  name: string
+  name: string;
   /** Identifier of the resource pool. */
-  resource_pool: string
+  resource_pool: string;
 }
 
 /**
@@ -441,15 +441,15 @@ export interface ResourcePool {
  */
 export interface GetResourcePoolsParams {
   /** Clusters that must contain the resource pool. */
-  clusters?: string[]
+  clusters?: string[];
   /** Datacenters that must contain the resource pool. */
-  datacenters?: string[]
+  datacenters?: string[];
   /** Hosts that must contain the resource pool. */
-  hosts?: string[]
+  hosts?: string[];
   /** Names that resource pools must have to match the filter. */
-  names?: string[]
+  names?: string[];
   /** Resource pools that must contain the resource pool. */
-  parent_resource_pools?: string[]
+  parent_resource_pools?: string[];
   /** Identifiers of resource pools that can match the filter. */
-  resource_pools?: string[]
+  resource_pools?: string[];
 }
