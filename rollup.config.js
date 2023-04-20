@@ -19,7 +19,7 @@ const plugins = [
     extensions,
   }),
   terser(),
-  typescript(),
+  typescript({ declaration: true, declarationDir: 'dist/types' }),
   nodePolyfills(),
   builtins(),
 ];
