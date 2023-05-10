@@ -1,6 +1,6 @@
 {
   "name": "multi-cloud-provisioning-tools",
-  "version": "0.2.3",
+  "version": "1.0.0",
   "description": "This library aims to provide data on infrastructure across multiple cloud providers. Currently, it supports Azure and vSphere.",
   "repository": {
     "type": "git",
