@@ -4,12 +4,20 @@ The aim of this library is to provide you with tools to help provision clusters 
 
 Right now the library supports vSphere and Azure.
 
+# Install
+
+`npm i multi-cloud-provisioning-tools`
+
 # Examples
+
+### Import
+
+`import { vSphereClient, AzureClient, Cluster, DataCenter } from "multi-cloud-provisioning-tools";`
 
 ### Azure
 
 ```
- const subscriptionId = 'YOUR_SUBSCRIPTION_ID';
+  const subscriptionId = 'YOUR_SUBSCRIPTION_ID';
   const clientId = 'YOUR_CLIENT_ID';
   const clientSecret = 'YOUR_CLIENT_SECRET';
   const tenantId = 'YOUR_TENANT_ID';
@@ -61,7 +69,7 @@ Right now the library supports vSphere and Azure.
 ### vSphere
 
 ```
- const host = 'your-vsphere-host';
+  const host = 'your-vsphere-host';
   const username = 'your-username';
   const password = 'your-password';
 
