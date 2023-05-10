@@ -102,22 +102,23 @@ class AzureClient {
       });
       const resourceSkus: ResourceSku[] = [];
 
-      // At this time, the Azure SDK does not support filtering by resource type or vm size.
-      if (resourceType) {
-        for await (const sku of skus) {
-          if (sku.resourceType === resourceType) resourceSkus.push(sku);
-        }
-      } else {
-        for await (const sku of skus) {
+      for await (const sku of skus) {
+        if (!resourceType || sku.resourceType === resourceType)
           resourceSkus.push(sku);
-        }
       }
-      if (vmSize) {
-        return resourceSkus.filter((sku) => sku.name === vmSize);
+      // At this time, the Azure SDK does not support filtering by resource type or vm size.
+      if (resourceType || vmSize) {
+        return resourceSkus.filter((sku) => {
+          const matchesResourceType = resourceType
+            ? sku.resourceType === resourceType
+            : true;
+          const matchesVmSize = vmSize ? sku.name === vmSize : true;
+          return matchesResourceType && matchesVmSize;
+        });
       }
       return resourceSkus;
     } catch (error) {
-      console.error('Failed to get locations:', error);
+      console.error('Failed to get resource skus:', error);
       throw error;
     }
   }
@@ -145,7 +146,7 @@ class AzureClient {
       }
       return vmSizes;
     } catch (error) {
-      console.error('Failed to get locations:', error);
+      console.error('Failed to get virtual machine sizes:', error);
       throw error;
     }
   }
