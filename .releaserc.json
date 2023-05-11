@@ -5,45 +5,13 @@
     "@semantic-release/release-notes-generator",
     ["@semantic-release/changelog", { "changelogFile": "CHANGELOG.md" }],
     "@semantic-release/npm",
-    {
-      "path": "@semantic-release/git",
-      "assets": ["package.json", "CHANGELOG.md"],
-      "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-    }
-  ],
-  "publish": [
-    "@semantic-release/github",
-    {
-      "assets": [
-        { "path": "dist/*", "label": "Distribution files" },
-        { "path": "docs/*", "label": "Documentation" }
-      ]
-    }
-  ],
-  "release": {
-    "branches": ["main"],
-    "githubToken": "${{ secrets.GH_TOKEN }}",
-    "analyzeCommits": "@semantic-release/commit-analyzer",
-    "verifyConditions": [
-      "@semantic-release/changelog",
-      "@semantic-release/github"
-    ],
-    "verifyRelease": [],
-    "prepare": [
-      "@semantic-release/changelog",
+    [
+      "@semantic-release/git",
       {
         "assets": ["package.json", "CHANGELOG.md"],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ],
-    "publish": [
-      "@semantic-release/github",
-      {
-        "path": "@semantic-release/npm",
-        "npmPublish": true
-      }
-    ],
-    "success": ["@semantic-release/github"],
-    "fail": []
-  }
+    "@semantic-release/github"
+  ]
 }

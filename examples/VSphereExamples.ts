@@ -1,5 +1,5 @@
-import vSphereClient from '../src/clients/vSphereClient';
-import { NetworkType } from '../src/models/vSphereModels';
+import vSphereClient from '../src/clients/VSphereClient';
+import { NetworkType } from '../src/models/VSphereModels';
 
 async function main() {
   const host = 'your-vsphere-host';

@@ -1,4 +1,4 @@
-export { default as vSphereClient } from './clients/vSphereClient';
+export { default as vSphereClient } from './clients/VSphereClient';
 export { default as AzureClient } from './clients/AzureClient';
 export type {
   GetVMsParams,
@@ -18,4 +18,4 @@ export type {
   Network,
   GetResourcePoolsParams,
   ResourcePool,
-} from './models/vSphereModels';
+} from './models/VSphereModels';
