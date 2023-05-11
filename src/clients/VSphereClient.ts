@@ -17,7 +17,7 @@ import {
   Network,
   GetResourcePoolsParams,
   ResourcePool,
-} from '../models/vSphereModels';
+} from '../models/VSphereModels';
 import { buildQueryString } from '../utils';
 import https from 'https';
 

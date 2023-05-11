@@ -12,7 +12,7 @@ Right now the library supports vSphere and Azure.
 
 ### Import
 
-`import { vSphereClient, AzureClient, Cluster, DataCenter } from "multi-cloud-provisioning-tools";`
+`import { VSphereClient, AzureClient, Cluster, DataCenter } from "multi-cloud-provisioning-tools";`
 
 ### Azure
 
@@ -73,7 +73,7 @@ Right now the library supports vSphere and Azure.
   const username = 'your-username';
   const password = 'your-password';
 
-  const client = new vSphereClient(host, username, password, false);
+  const client = new VSphereClient(host, username, password, false);
   await client.authenticate();
 
   // Fetch VMs
